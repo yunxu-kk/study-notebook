@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoE 大模型发布时间线</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .table-container {
+            padding: 40px;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+        }
+        
+        th {
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        tbody tr:hover {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            transform: scale(1.01);
+        }
+        
+        td {
+            padding: 14px 12px;
+            color: #333;
+        }
+        
+        .year-2023 {
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .year-2024 {
+            border-left: 4px solid #f39c12;
+        }
+        
+        .year-2025 {
+            border-left: 4px solid #27ae60;
+        }
+        
+        .year-2026 {
+            border-left: 4px solid #9b59b6;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            font-weight: 600;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 5px;
+            margin-bottom: 3px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .tag-open {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .tag-open:hover {
+            background: #1e8449;
+            transform: scale(1.1);
+        }
+        
+        .tag-closed {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .tag-report {
+            background: #3498db;
+            color: white;
+        }
+        
+        .tag-multimodal {
+            background: #9b59b6;
+            color: white;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 MoE 大模型发布时间线</h1>
+            <p>Mixture of Experts 架构大模型完整汇总（2023-2026）</p>
+        </header>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>模型</th>
+                        <th>发布时间</th>
+                        <th>公司/机构</th>
+                        <th>参数规模</th>
+                        <th>开源状态</th>
+                        <th>备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 2023 年 -->
+                    <tr class="year-2023">
+                        <td class="highlight">GPT-4</td>
+                        <td>2023 年 3 月</td>
+                        <td>OpenAI</td>
+                        <td>8×220B (爆料)</td>
+                        <td><span class="tag tag-closed">闭源</span></td>
+                        <td>23 年 6 月 George Hotz 爆料为 MoE 架构</td>
+                    </tr>
+                    <tr class="year-2023">
+                        <td>Mistral-8x7B</td>
+                        <td>2023 年 12 月</td>
+                        <td>Mistral AI</td>
+                        <td>8×7B = 56B</td>
+                        <td><a href="https://github.com/mistralai/mistral-src" target="_blank" class="tag tag-open" title="GitHub: mistralai/mistral-src">🔗 开源</a></td>
+                        <td>早期开源 MoE 模型</td>
+                    </tr>
+                    <tr class="year-2023">
+                        <td>LLaMA-MoE</td>
+                        <td>2023 年 12 月</td>
+                        <td>Meta</td>
+                        <td>-</td>
+                        <td><a href="https://github.com/facebookresearch/llama" target="_blank" class="tag tag-open" title="GitHub: facebookresearch/llama">🔗 开源</a></td>
+                        <td>基于 LLaMA 架构</td>
+                    </tr>
+                    
+                    <!-- 2024 年 -->
+                    <tr class="year-2024">
+                        <td>DeepSeek-MoE</td>
+                        <td>2024 年 1 月</td>
+                        <td>幻方量化（深度求索）</td>
+                        <td>16B/145B</td>
+                        <td><a href="https://github.com/deepseek-ai/DeepSeek-MoE" target="_blank" class="tag tag-open" title="GitHub: deepseek-ai/DeepSeek-MoE">🔗 开源</a><span class="tag tag-report">有报告</span></td>
+                        <td>国内首个开源 MoE 模型</td>
+                    </tr>
+                    <tr class="year-2024">
+                        <td>Step-2</td>
+                        <td>2024 年 3 月</td>
+                        <td>阶跃星辰</td>
+                        <td>-</td>
+                        <td><span class="tag tag-closed">闭源</span></td>
+                        <td>无开源，无细节发布</td>
+                    </tr>
+                    <tr class="year-2024">
+                        <td>MM1</td>
+                        <td>2024 年 3 月</td>
+                        <td>苹果</td>
+                        <td>-</td>
+                        <td><span class="tag tag-closed">闭源</span><span class="tag tag-multimodal">多模态</span></td>
+                        <td>多模态 MoE，有技术报告</td>
+                    </tr>
+                    <tr class="year-2024">
+                        <td>Grok-1</td>
+                        <td>2024 年 3 月</td>
+                        <td>xAI</td>
+                        <td>314B</td>
+                        <td><a href="https://github.com/xai-org/grok-1" target="_blank" class="tag tag-open" title="GitHub: xai-org/grok-1">🔗 开源</a></td>
+                        <td>马斯克旗下 XAI 公司</td>
+                    </tr>
+                    <tr class="year-2024">
+                        <td>Qwen1.5-MoE-A2.7B</td>
+                        <td>2024 年 3 月</td>
+                        <td>阿里巴巴</td>
+                        <td>2.7B</td>
+                        <td><a href="https://github.com/QwenLM/Qwen1.5" target="_blank" class="tag tag-open" title="GitHub: QwenLM/Qwen1.5">🔗 开源</a></td>
+                        <td>通义千问系列</td>
+                    </tr>
+                    <tr class="year-2024">
+                        <td>DBRX</td>
+                        <td>2024 年 3 月</td>
+                        <td>Databricks</td>
+                        <td>132B (MoE)</td>
+                        <td><a href="https://github.com/databricks/dbrx" target="_blank" class="tag tag-open" title="GitHub: databricks/dbrx">🔗 开源</a></td>
+                        <td>高性能 MoE 模型</td>
+                    </tr>
+                    <tr class="year-2024">
+                        <td>Mistral-8x22B</td>
+                        <td>2024 年 4 月</td>
+                        <td>Mistral AI</td>
+                        <td>8×22B = 176B</td>
+                        <td><a href="https://huggingface.co/mistralai/Mixtral-8x22B" target="_blank" class="tag tag-open" title="HuggingFace: mistralai/Mixtral-8x22B">🔗 开源</a></td>
+                        <td>Mistral 系列升级版</td>
+                    </tr>
+                    <tr class="year-2024">
+                        <td>WizardLM-2-8x22B</td>
+                        <td>2024 年 4 月</td>
+                        <td>微软</td>
+                        <td>8×22B = 176B</td>
+                        <td><a href="https://github.com/nlpxucan/WizardLM" target="_blank" class="tag tag-open" title="GitHub: nlpxucan/WizardLM">🔗 开源</a></td>
+                        <td>基于 Mistral 架构</td>
+                    </tr>
+                    <tr class="year-2024">
+                        <td>Arctic</td>
+                        <td>2024 年 4 月</td>
+                        <td>Snowflake</td>
+                        <td>480B</td>
+                        <td><a href="https://github.com/snowflakedb/snowflake-arctic" target="_blank" class="tag tag-open" title="GitHub: snowflakedb/snowflake-arctic">🔗 开源</a></td>
+                        <td>Dense-MoE Hybrid 架构</td>
+                    </tr>
+                    <tr class="year-2024">
+                        <td>Grok-2</td>
+                        <td>2024 年 8 月</td>
+                        <td>xAI</td>
+                        <td>314B+</td>
+                        <td><a href="https://github.com/xai-org/grok" target="_blank" class="tag tag-open" title="GitHub: xai-org/grok">🔗 开源</a></td>
+                        <td>Grok 系列升级版</td>
+                    </tr>
+                    <tr class="year-2024">
+                        <td>DeepSeek-V3</td>
+                        <td>2024 年 12 月</td>
+                        <td>幻方量化（深度求索）</td>
+                        <td>671B (MoE)</td>
+                        <td><a href="https://github.com/deepseek-ai/DeepSeek-V3" target="_blank" class="tag tag-open" title="GitHub: deepseek-ai/DeepSeek-V3">🔗 开源</a><span class="tag tag-report">有报告</span></td>
+                        <td>采用 MoE 架构，性能卓越</td>
+                    </tr>
+                    
+                    <!-- 2025 年 -->
+                    <tr class="year-2025">
+                        <td class="highlight">MiniMax-01</td>
+                        <td>2025 年 1 月</td>
+                        <td>MiniMax</td>
+                        <td>4560B (4.56T)</td>
+                        <td><span class="tag tag-closed">闭源</span></td>
+                        <td>支持长达 400 万 tokens 输入</td>
+                    </tr>
+                    <tr class="year-2025">
+                        <td class="highlight">Qwen2.5-Max</td>
+                        <td>2025 年 1 月</td>
+                        <td>阿里巴巴</td>
+                        <td>超大规模</td>
+                        <td><span class="tag tag-closed">闭源</span></td>
+                        <td>预训练数据超 20 万亿 tokens，支持 100 万 tokens</td>
+                    </tr>
+                    <tr class="year-2025">
+                        <td>DeepSeek-V3.5</td>
+                        <td>2025 年 6 月</td>
+                        <td>深度求索</td>
+                        <td>671B (MoE)</td>
+                        <td><a href="https://github.com/deepseek-ai/DeepSeek-V3.5" target="_blank" class="tag tag-open" title="GitHub: deepseek-ai/DeepSeek-V3.5">🔗 开源</a></td>
+                        <td>V3 升级版，推理能力增强</td>
+                    </tr>
+                    <tr class="year-2025">
+                        <td>Grok-3</td>
+                        <td>2025 年 8 月</td>
+                        <td>xAI</td>
+                        <td>500B+</td>
+                        <td><a href="https://github.com/xai-org/grok-3" target="_blank" class="tag tag-open" title="GitHub: xai-org/grok-3">🔗 开源</a></td>
+                        <td>Grok 系列最新一代</td>
+                    </tr>
+                    <tr class="year-2025">
+                        <td>Qwen3-MoE</td>
+                        <td>2025 年 9 月</td>
+                        <td>阿里巴巴</td>
+                        <td>多尺寸</td>
+                        <td><a href="https://github.com/QwenLM/Qwen3" target="_blank" class="tag tag-open" title="GitHub: QwenLM/Qwen3">🔗 开源</a></td>
+                        <td>通义千问第三代 MoE 系列</td>
+                    </tr>
+                    <tr class="year-2025">
+                        <td>Mistral-Large-MoE</td>
+                        <td>2025 年 10 月</td>
+                        <td>Mistral AI</td>
+                        <td>250B+</td>
+                        <td><span class="tag tag-closed">闭源</span></td>
+                        <td>Mistral 旗舰 MoE 模型</td>
+                    </tr>
+                    <tr class="year-2025">
+                        <td>Step-3</td>
+                        <td>2025 年 11 月</td>
+                        <td>阶跃星辰</td>
+                        <td>超大规模</td>
+                        <td><span class="tag tag-closed">闭源</span></td>
+                        <td>Step 系列升级版，采用 MoE 架构</td>
+                    </tr>
+                    
+                    <!-- 2025 年 -->
+                    <tr class="year-2025">
+                        <td class="highlight">Claude 3.5 Sonnet</td>
+                        <td>2025 年 3 月</td>
+                        <td>Anthropic</td>
+                        <td>超大规模</td>
+                        <td><span class="tag tag-closed">闭源</span></td>
+                        <td>采用 MoE 架构，代码和推理能力强大</td>
+                    </tr>
+                    <tr class="year-2025">
+                        <td class="highlight">Claude 3.7 Sonnet</td>
+                        <td>2025 年 8 月</td>
+                        <td>Anthropic</td>
+                        <td>超大规模</td>
+                        <td><span class="tag tag-closed">闭源</span></td>
+                        <td>Claude 系列升级版，混合推理模型</td>
+                    </tr>
+                    
+                    <!-- 2026 年 -->
+                    <tr class="year-2026">
+                        <td class="highlight">Claude 4 Opus</td>
+                        <td>2026 年 1 月</td>
+                        <td>Anthropic</td>
+                        <td>超大规模 (MoE)</td>
+                        <td><span class="tag tag-closed">闭源</span></td>
+                        <td>Claude 4 系列旗舰模型，采用先进 MoE 架构</td>
+                    </tr>
+                    <tr class="year-2026">
+                        <td class="highlight">GPT-4.5</td>
+                        <td>2026 年 2 月</td>
+                        <td>OpenAI</td>
+                        <td>超大规模 (MoE)</td>
+                        <td><span class="tag tag-closed">闭源</span></td>
+                        <td>采用先进 MoE 架构，多专家系统</td>
+                    </tr>
+                    <tr class="year-2026">
+                        <td>DeepSeek-V4</td>
+                        <td>2026 年 3 月</td>
+                        <td>深度求索</td>
+                        <td>1T+ (MoE)</td>
+                        <td><a href="https://github.com/deepseek-ai/DeepSeek-V4" target="_blank" class="tag tag-open" title="GitHub: deepseek-ai/DeepSeek-V4">🔗 开源</a><span class="tag tag-report">有报告</span></td>
+                        <td>新一代 MoE 架构，性能突破</td>
+                    </tr>
+                    <tr class="year-2026">
+                        <td>LLaMA-4-MoE</td>
+                        <td>2026 年 4 月</td>
+                        <td>Meta</td>
+                        <td>多尺寸</td>
+                        <td><a href="https://github.com/meta-llama/llama4" target="_blank" class="tag tag-open" title="GitHub: meta-llama/llama4">🔗 开源</a></td>
+                        <td>LLaMA4 系列 MoE 版本</td>
+                    </tr>
+                    <tr class="year-2026">
+                        <td class="highlight">Kimi K2</td>
+                        <td>2026 年 5 月</td>
+                        <td>月之暗面</td>
+                        <td>超大规模</td>
+                        <td><span class="tag tag-closed">闭源</span></td>
+                        <td>月之暗面最新 MoE 架构大模型，支持超长上下文</td>
+                    </tr>
+                    <tr class="year-2026">
+                        <td class="highlight">LongCat</td>
+                        <td>2026 年 5 月</td>
+                        <td>美团</td>
+                        <td>超大规模</td>
+                        <td><a href="https://github.com/meituan-longcat/LongCat-Flash-Chat/tree/main" target="_blank" class="tag tag-open" title="GitHub: Meituan-AutoML/LongCat">🔗 开源</a></td>
+                        <td>美团开源的超长上下文 MoE 模型</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">29+</div>
+                <div class="stat-label">MoE 模型</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">开源模型</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">10+</div>
+                <div class="stat-label">公司/机构</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">4.56T</div>
+                <div class="stat-label">最大参数量</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>数据更新于 2026 年 5 月 | MoE (Mixture of Experts) 是一种高效的神经网络架构</p>
+        </div>
+    </div>
+</body>
+</html>

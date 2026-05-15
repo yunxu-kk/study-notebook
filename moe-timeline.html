@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoE 模型发展历程</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 24px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-top: 20px solid #1e3a8a;
+        }
+        
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            letter-spacing: 3px;
+        }
+        
+        .phase-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 60px 40px;
+        }
+        
+        .phase {
+            flex: 1;
+            min-width: 45%;
+            background: linear-gradient(145deg, #f0f4ff 0%, #e8efff 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .phase-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .phase-header h2 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+        }
+        
+        .phase-header p {
+            font-size: 1em;
+            opacity: 0.95;
+        }
+        
+        .phase-2021 .phase-header {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #4f46e5 0%, #7c3aed 100%);
+            border-radius: 2px;
+        }
+        
+        .phase-2021 .timeline::before {
+            background: linear-gradient(180deg, #059669 0%, #10b981 100%);
+        }
+        
+        .event {
+            position: relative;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 18px 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid #4f46e5;
+        }
+        
+        .phase-2021 .event {
+            border-left-color: #059669;
+        }
+        
+        .event:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .event::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: white;
+            border: 4px solid #4f46e5;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .phase-2021 .event::before {
+            border-color: #059669;
+        }
+        
+        .event-year {
+            display: inline-block;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .phase-2021 .event-year {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        }
+        
+        .event-content {
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .event-content strong {
+            color: #1e3a8a;
+            font-weight: 600;
+        }
+        
+        .phase-2021 .event-content strong {
+            color: #047857;
+        }
+        
+        .event-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .event-item {
+            background: linear-gradient(145deg, #fafbff 0%, #f0f4ff 100%);
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 0.9em;
+            border: 1px solid #e0e7ff;
+        }
+        
+        .event-item .date {
+            color: #6366f1;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+        
+        .phase-2021 .event-item .date {
+            color: #059669;
+        }
+        
+        .divider {
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 50%, #059669 100%);
+            margin: 0 40px;
+            border-radius: 2px;
+        }
+        
+        .main-timeline {
+            padding: 60px 40px;
+            background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .main-timeline h2 {
+            text-align: center;
+            font-size: 2.2em;
+            color: #1e3a8a;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-bar {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            min-height: 120px;
+        }
+        
+        .timeline-bar::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 6px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 3px;
+        }
+        
+        .timeline-point {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            min-width: 140px;
+        }
+        
+        .timeline-point .dot {
+            width: 24px;
+            height: 24px;
+            background: white;
+            border: 4px solid #fbbf24;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .timeline-point .year {
+            color: white;
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-point .desc {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+        
+        .year-section {
+            margin-bottom: 40px;
+        }
+        
+        .year-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .year-title {
+            display: inline-block;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        
+        .event-card {
+            background: white;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-top: 4px solid #3b82f6;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .event-card .company {
+            color: #6366f1;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .event-card .title {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .event-card .desc {
+            color: #64748b;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+        }
+        
+        .footer p {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 1024px) {
+            .phase-container {
+                flex-direction: column;
+            }
+            
+            .phase {
+                min-width: 100%;
+            }
+            
+            .timeline-bar {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .timeline-point {
+                min-width: 100px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 MoE 模型发展历程</h1>
+            <p>Mixture of Experts 架构演进完整时间线</p>
+        </header>
+        
+        <div class="phase-container">
+            <!-- 1991-2020 年阶段 -->
+            <div class="phase phase-1991">
+                <div class="phase-header">
+                    <h2>📚 1991-2020 年</h2>
+                    <p>技术研究阶段，被用作一种集成学习方法</p>
+                </div>
+                <div class="timeline">
+                    <div class="event">
+                        <span class="event-year">1991 年</span>
+                        <div class="event-content">
+                            <strong>MoE 架构首次被提出</strong>
+                        </div>
+                    </div>
+                    <div class="event">
+                        <span class="event-year">2013 年</span>
+                        <div class="event-content">
+                            <strong>谷歌提出 DMoE</strong>
+                        </div>
+                    </div>
+                    <div class="event">
+                        <span class="event-year">2017 年</span>
+                        <div class="event-content">
+                            <strong>谷歌正式提出 MoE 概念</strong>
+                            <div class="event-group">
+                                <div class="event-item">在机器翻译中实现 SOTA</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event">
+                        <span class="event-year">2018 年</span>
+                        <div class="event-content">
+                            <strong>谷歌提出 MMoE</strong>
+                            <div class="event-group">
+                                <div class="event-item">并将其用于推荐系统</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event">
+                        <span class="event-year">2020 年</span>
+                        <div class="event-content">
+                            <strong>谷歌 Gahard 首次将 MoE 引入 Transformer</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2021 年后阶段 -->
+            <div class="phase phase-2021">
+                <div class="phase-header">
+                    <h2>🚀 2021 年后</h2>
+                    <p>规模发展阶段，成为大模型主流架构</p>
+                </div>
+                <div class="timeline">
+                    <div class="event">
+                        <span class="event-year">2021 年</span>
+                        <div class="event-content">
+                            <div class="event-group">
+                                <div class="event-item"><span class="date">2021.1</span> - 谷歌发布 Switch Transformer</div>
+                                <div class="event-item"><span class="date">2021.9</span> - 微软发布 Z-code MoE</div>
+                                <div class="event-item"><span class="date">2021.11</span> - 阿里发布 M6 多模态模型</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event">
+                        <span class="event-year">2022 年</span>
+                        <div class="event-content">
+                            <div class="event-group">
+                                <div class="event-item"><span class="date">2022.1</span> - 谷歌发布 V-MoE 视觉大模型</div>
+                                <div class="event-item"><span class="date">2022.5</span> - 百度发布文心视觉模型 VIMER-UFO 2.0</div>
+                                <div class="event-item"><span class="date">2022.7</span> - Meta 发布 NLLB</div>
+                                <div class="event-item"><span class="date">2022.12</span> - 谷歌发布多模态大模型 LLMoE</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event">
+                        <span class="event-year">2023 年</span>
+                        <div class="event-content">
+                            <div class="event-group">
+                                <div class="event-item"><span class="date">2023.3</span> - OpenAI 发布 GPT-4；华为提出 PANGU-Σ</div>
+                                <div class="event-item"><span class="date">2023.12</span> - Mistral AI 开源 Mistral-8×7B</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- 2024 年详细时间线 -->
+        <div class="main-timeline">
+            <h2>📅 2024-2026 年 MoE 模型快速发展</h2>
+            
+            <div class="timeline-bar">
+                <div class="timeline-point">
+                    <div class="dot"></div>
+                    <div class="year">2024.1</div>
+                    <div class="desc">MiniMax 发布 abab6</div>
+                </div>
+                <div class="timeline-point">
+                    <div class="dot"></div>
+                    <div class="year">2024.3</div>
+                    <div class="desc">Step-2 / MM1 / Grok-1<br>Qwen1.5 / DBRX</div>
+                </div>
+                <div class="timeline-point">
+                    <div class="dot"></div>
+                    <div class="year">2024.6</div>
+                    <div class="desc">昆仑万维 Skywork-MoE</div>
+                </div>
+                <div class="timeline-point">
+                    <div class="dot"></div>
+                    <div class="year">2024.8</div>
+                    <div class="desc">xAI 发布 Grok-2</div>
+                </div>
+                <div class="timeline-point">
+                    <div class="dot"></div>
+                    <div class="year">2024.12</div>
+                    <div class="desc">DeepSeek-V3 (671B MoE)</div>
+                </div>
+                <div class="timeline-point">
+                    <div class="dot"></div>
+                    <div class="year">2025</div>
+                    <div class="desc">MiniMax-01 / Qwen2.5-Max<br>Grok-3 / Qwen3-MoE</div>
+                </div>
+                <div class="timeline-point">
+                    <div class="dot"></div>
+                    <div class="year">2026</div>
+                    <div class="desc">GPT-4.5 / DeepSeek-V4<br>LLaMA-4-MoE</div>
+                </div>
+            </div>
+            
+            <!-- 2024 年 1 月 -->
+            <div class="year-section">
+                <div class="year-title">📍 2024 年 1 月</div>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="company">MiniMax</div>
+                        <div class="title">abab6</div>
+                        <div class="desc">MiniMax 发布的首个大语言模型</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2024 年 2 月 -->
+            <div class="year-section">
+                <div class="year-title">📍 2024 年 2 月</div>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="company">昆仑万维</div>
+                        <div class="title">天工 2.0</div>
+                        <div class="desc">昆仑万维发布的天工大模型 2.0 版本</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">谷歌</div>
+                        <div class="title">Gemini 1.5 Pro</div>
+                        <div class="desc">谷歌发布 Gemini 1.5 Pro 多模态大模型</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">华为</div>
+                        <div class="title">LocMoE 嵌入盘古大模型</div>
+                        <div class="desc">华为将 LocMoE 技术嵌入盘古大模型</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2024 年 3 月 -->
+            <div class="year-section">
+                <div class="year-title">📍 2024 年 3 月</div>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="company">阶跃星辰</div>
+                        <div class="title">Step-2</div>
+                        <div class="desc">阶跃星辰发布的第二代大模型</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">苹果</div>
+                        <div class="title">MM1 多模态大模型</div>
+                        <div class="desc">苹果发布的混合专家多模态模型</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">xAI</div>
+                        <div class="title">Grok-1</div>
+                        <div class="desc">马斯克旗下 xAI 公司发布的开源大模型</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">阿里巴巴</div>
+                        <div class="title">通义千问 Qwen1.5-MoE-A2.7B</div>
+                        <div class="desc">阿里发布的通义千问 MoE 版本</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">Databricks</div>
+                        <div class="title">DBRX 大模型</div>
+                        <div class="desc">美国 Databricks 发布的高性能 MoE 模型</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2024 年 4 月 -->
+            <div class="year-section">
+                <div class="year-title">📍 2024 年 4 月</div>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="company">MiniMax</div>
+                        <div class="title">abab6.5 多模态大模型</div>
+                        <div class="desc">MiniMax 发布的 abab6.5 多模态版本</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">腾讯</div>
+                        <div class="title">混元大模型（MoE 升级）</div>
+                        <div class="desc">腾讯发布基于 MoE 升级的混元大模型</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">昆仑万维</div>
+                        <div class="title">天工 3.0</div>
+                        <div class="desc">昆仑万维发布天工 3.0 大模型</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">商汤科技</div>
+                        <div class="title">日日新 5.0</div>
+                        <div class="desc">商汤科技发布大模型日日新 5.0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2024 年 5 月 -->
+            <div class="year-section">
+                <div class="year-title">📍 2024 年 5 月</div>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="company">幻方量化</div>
+                        <div class="title">DeepSeek-V2</div>
+                        <div class="desc">幻方量化发布的 DeepSeek 第二代模型</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">东方通科技</div>
+                        <div class="title">MoE 安全大模型</div>
+                        <div class="desc">东方通科技发布的 MoE 安全领域大模型</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">浪潮</div>
+                        <div class="title">源 2.0-M32</div>
+                        <div class="desc">浪潮发布的源 2.0-M32 大模型</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2024 年 6 月 -->
+            <div class="year-section">
+                <div class="year-title">📍 2024 年 6 月</div>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="company">昆仑万维</div>
+                        <div class="title">Skywork-MoE</div>
+                        <div class="desc">昆仑万维发布的 Skywork 系列 MoE 模型</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2024 年 8 月 -->
+            <div class="year-section">
+                <div class="year-title">📍 2024 年 8 月</div>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="company">xAI</div>
+                        <div class="title">Grok-2</div>
+                        <div class="desc">马斯克旗下 xAI 公司发布的 Grok 系列升级版，314B+ 参数</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2024 年 12 月 -->
+            <div class="year-section">
+                <div class="year-title">📍 2024 年 12 月</div>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="company">幻方量化（深度求索）</div>
+                        <div class="title">DeepSeek-V3</div>
+                        <div class="desc">671B 参数 MoE 架构，采用先进混合专家设计，性能卓越</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2025 年 -->
+            <div class="year-section">
+                <div class="year-title">📍 2025 年</div>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="company">MiniMax</div>
+                        <div class="title">MiniMax-01</div>
+                        <div class="desc">4560B (4.56T) 超大规模参数，支持长达 400 万 tokens 输入</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">阿里巴巴</div>
+                        <div class="title">Qwen2.5-Max</div>
+                        <div class="desc">超大规模 MoE 模型，预训练数据超 20 万亿 tokens，支持 100 万 tokens 上下文</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">深度求索</div>
+                        <div class="title">DeepSeek-V3.5</div>
+                        <div class="desc">671B 参数 MoE 架构，V3 升级版，推理能力增强</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">xAI</div>
+                        <div class="title">Grok-3</div>
+                        <div class="desc">500B+ 参数，Grok 系列最新一代，采用先进 MoE 架构</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">阿里巴巴</div>
+                        <div class="title">Qwen3-MoE</div>
+                        <div class="desc">通义千问第三代 MoE 系列，多尺寸版本</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">Mistral AI</div>
+                        <div class="title">Mistral-Large-MoE</div>
+                        <div class="desc">250B+ 参数，Mistral 旗舰 MoE 模型</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">阶跃星辰</div>
+                        <div class="title">Step-3</div>
+                        <div class="desc">超大规模 MoE 架构，Step 系列升级版</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2026 年 -->
+            <div class="year-section">
+                <div class="year-title">📍 2026 年</div>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="company">OpenAI</div>
+                        <div class="title">GPT-4.5</div>
+                        <div class="desc">采用先进 MoE 架构，多专家系统设计，闭源模型</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">深度求索</div>
+                        <div class="title">DeepSeek-V4</div>
+                        <div class="desc">1T+ 参数 MoE 架构，新一代 MoE 设计，性能突破</div>
+                    </div>
+                    <div class="event-card">
+                        <div class="company">Meta</div>
+                        <div class="title">LLaMA-4-MoE</div>
+                        <div class="desc">LLaMA4 系列 MoE 版本，多尺寸选择，开源模型</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>📊 MoE 模型发展历程时间线 | 数据来源：公开资料整理</p>
+            <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">Mixture of Experts (MoE) 混合专家模型 - 让大模型更高效、更智能</p>
+        </div>
+    </div>
+</body>
+</html>
