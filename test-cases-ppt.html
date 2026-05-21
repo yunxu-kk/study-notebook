@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试用例集：我的培训 - 学习报告 - 网页版 PPT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+            --bg-accent: #e8edf5;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --accent-blue: #3b82f6;
+            --accent-blue-light: #dbeafe;
+            --accent-blue-dark: #1d4ed8;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-purple: #8b5cf6;
+            --accent-red: #ef4444;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow: hidden;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 幻灯片容器 */
+        .slides-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* 单张幻灯片 */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 40px;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, #f0f4f8 100%);
+        }
+
+        /* 幻灯片内容区 */
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+            gap: 12px;
+            min-height: 0;
+        }
+
+        /* 标题样式 */
+        .slide-header {
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .slide-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .slide-title .main-icon {
+            font-size: 2rem;
+        }
+
+        /* 表格样式 */
+        .table-container {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .table-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #cbd5e1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--accent-blue-light) 0%, #e0e7ff 100%);
+            padding: 12px 14px;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-blue-dark);
+            border-bottom: 2px solid var(--border-color);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        td {
+            padding: 10px 14px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: var(--bg-accent);
+        }
+
+        /* 优先级标签 */
+        .priority-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-align: center;
+            min-width: 32px;
+        }
+
+        .priority-p0 {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .priority-p1 {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .priority-p2 {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        /* 类型标签 */
+        .type-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .type-functional { background: #d1fae5; color: #059669; }
+        .type-boundary { background: #ede9fe; color: #7c3aed; }
+        .type-exception { background: #fed7aa; color: #ea580c; }
+
+        /* 页码 */
+        .page-number {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: var(--bg-secondary);
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .slide { padding: 20px 28px; }
+            .slide-title { font-size: 1.5rem; }
+            table { font-size: 0.75rem; }
+        }
+
+        @media (max-width: 900px) {
+            .slide { padding: 16px 20px; }
+            .slide-title { font-size: 1.2rem; flex-direction: column; gap: 6px; }
+            table { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 幻灯片容器 -->
+    <div class="slides-container">
+        
+        <!-- 单页：40 个完整用例清单 -->
+        <div class="slide">
+            <div class="slide-content">
+                <!-- 页面标题 -->
+                <header class="slide-header">
+                    <h1 class="slide-title">
+                        <span class="main-icon">📋</span>
+                        测试用例集：我的培训 - 学习报告
+                    </h1>
+                </header>
+
+                <!-- 用例清单表格 -->
+                <section class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 13%;">用例 ID</th>
+                                <th style="width: 40%;">用例名称</th>
+                                <th style="width: 9%;">优先级</th>
+                                <th style="width: 10%;">类型</th>
+                                <th style="width: 8%;">耗时</th>
+                                <th style="width: 20%;">模块</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>TC-OVERVIEW-001</td><td>课程完成率卡片数据显示正确</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>数据概览</td></tr>
+                            <tr><td>TC-OVERVIEW-002</td><td>课程完成率卡片点击滚动到表格</td><td><span class="priority-tag priority-p2">P2</span></td><td><span class="type-tag type-functional">功能</span></td><td>1min</td><td>数据概览</td></tr>
+                            <tr><td>TC-OVERVIEW-003</td><td>第一阶段任务列表显示</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>数据概览</td></tr>
+                            <tr><td>TC-OVERVIEW-004</td><td>新增第一阶段任务</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>数据概览</td></tr>
+                            <tr><td>TC-OVERVIEW-005</td><td>删除第一阶段任务</td><td><span class="priority-tag priority-p2">P2</span></td><td><span class="type-tag type-functional">功能</span></td><td>1min</td><td>数据概览</td></tr>
+                            <tr><td>TC-OVERVIEW-006</td><td>重点学习课程显示</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>数据概览</td></tr>
+                            <tr><td>TC-SUMMARY-001</td><td>Summary 标签页内容展示</td><td><span class="priority-tag priority-p2">P2</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>Summary</td></tr>
+                            <tr><td>TC-SUMMARY-002</td><td>Summary 标签页数据加载</td><td><span class="priority-tag priority-p2">P2</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>Summary</td></tr>
+                            <tr><td>TC-COURSE-001</td><td>课程列表加载显示</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-002</td><td>课程搜索 - 按课程名称</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-003</td><td>课程搜索 - 按课程代码</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-004</td><td>课程搜索 - 无结果</td><td><span class="priority-tag priority-p2">P2</span></td><td><span class="type-tag type-boundary">边界</span></td><td>1min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-005</td><td>进度筛选 - 已完成</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-006</td><td>进度筛选 - 进行中</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-007</td><td>进度筛选 - 未开始</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-008</td><td>日期筛选 - 即将到期</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-009</td><td>日期筛选 - 已过期</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-010</td><td>新增课程 - 成功</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-functional">功能</span></td><td>3min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-011</td><td>新增课程 - 必填项为空</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-boundary">边界</span></td><td>2min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-012</td><td>编辑课程 - 成功</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-functional">功能</span></td><td>3min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-013</td><td>删除课程 - 成功</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-014</td><td>删除课程 - 取消确认</td><td><span class="priority-tag priority-p2">P2</span></td><td><span class="type-tag type-functional">功能</span></td><td>1min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-015</td><td>收藏课程 - 添加</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-016</td><td>收藏课程 - 取消</td><td><span class="priority-tag priority-p2">P2</span></td><td><span class="type-tag type-functional">功能</span></td><td>1min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-017</td><td>批量导出 - 选中数据</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-functional">功能</span></td><td>3min</td><td>课程进度</td></tr>
+                            <tr><td>TC-COURSE-018</td><td>批量导出 - 未选择数据</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-exception">异常</span></td><td>1min</td><td>课程进度</td></tr>
+                            <tr><td>TC-WEEKLY-001</td><td>周数据图表加载显示</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>阶段任务</td></tr>
+                            <tr><td>TC-WEEKLY-002</td><td>时间范围筛选 - Last 30 days</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>阶段任务</td></tr>
+                            <tr><td>TC-WEEKLY-003</td><td>时间范围筛选 - Last 90 days</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>阶段任务</td></tr>
+                            <tr><td>TC-WEEKLY-004</td><td>线条类型切换 - Linear</td><td><span class="priority-tag priority-p2">P2</span></td><td><span class="type-tag type-functional">功能</span></td><td>1min</td><td>阶段任务</td></tr>
+                            <tr><td>TC-WEEKLY-005</td><td>线条类型切换 - Smooth</td><td><span class="priority-tag priority-p2">P2</span></td><td><span class="type-tag type-functional">功能</span></td><td>1min</td><td>阶段任务</td></tr>
+                            <tr><td>TC-WEEKLY-006</td><td>新增周数据 - 成功</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-functional">功能</span></td><td>3min</td><td>阶段任务</td></tr>
+                            <tr><td>TC-WEEKLY-007</td><td>新增周数据 - 重复数据校验</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-boundary">边界</span></td><td>2min</td><td>阶段任务</td></tr>
+                            <tr><td>TC-WEEKLY-008</td><td>新增周数据 - ATR AUTO 量大于 ATR 开单量</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-boundary">边界</span></td><td>2min</td><td>阶段任务</td></tr>
+                            <tr><td>TC-WEEKLY-009</td><td>编辑周数据 - 成功</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-functional">功能</span></td><td>3min</td><td>阶段任务</td></tr>
+                            <tr><td>TC-WEEKLY-010</td><td>删除周数据 - 成功</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>阶段任务</td></tr>
+                            <tr><td>TC-WEEKLY-011</td><td>周数据批量导出 - 选中数据</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-functional">功能</span></td><td>3min</td><td>阶段任务</td></tr>
+                            <tr><td>TC-INSIGHT-001</td><td>查看学习心得 - 有内容</td><td><span class="priority-tag priority-p1">P1</span></td><td><span class="type-tag type-functional">功能</span></td><td>2min</td><td>学习心得</td></tr>
+                            <tr><td>TC-INSIGHT-002</td><td>查看学习心得 - 无内容</td><td><span class="priority-tag priority-p2">P2</span></td><td><span class="type-tag type-functional">功能</span></td><td>1min</td><td>学习心得</td></tr>
+                            <tr><td>TC-INSIGHT-003</td><td>保存学习心得</td><td><span class="priority-tag priority-p0">P0</span></td><td><span class="type-tag type-functional">功能</span></td><td>3min</td><td>学习心得</td></tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 页码 -->
+    <div class="page-number">1 / 1</div>
+</body>
+</html>
